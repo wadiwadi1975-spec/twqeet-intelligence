@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Layout from '../layouts/Layout'
@@ -12,6 +13,18 @@ function AppContent({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isAuthPage = authPages.includes(router.pathname);
   const { lang } = useLang();
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((registration) => {
+          console.log('SW registered:', registration.scope);
+        })
+        .catch((err) => {
+          console.log('SW registration failed:', err);
+        });
+    }
+  }, []);
 
   return (
     <>
