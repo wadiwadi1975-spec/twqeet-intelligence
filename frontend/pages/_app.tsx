@@ -4,18 +4,20 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Layout from '../layouts/Layout'
 import AuthLayout from '../layouts/AuthLayout'
+import { LangProvider, useLang } from '../contexts/LangContext'
 
 const authPages = ['/login', '/register'];
 
-export default function App({ Component, pageProps }: AppProps) {
+function AppContent({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isAuthPage = authPages.includes(router.pathname);
+  const { lang } = useLang();
 
   return (
     <>
       <Head>
-        <title>منصتي - ذكاء القرارات</title>
-        <meta name="description" content="ذكاء القرارات.. زيادة الربح وتقليل المخاطر" />
+        <title>{lang === 'ar' ? 'منصتي - ذكاء القرارات' : 'MINASATI - Smart Decisions'}</title>
+        <meta name="description" content={lang === 'ar' ? 'ذكاء القرارات.. زيادة الربح وتقليل المخاطر' : 'Smart Decisions.. Increase profit and reduce risks'} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#0a1628" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,4 +36,12 @@ export default function App({ Component, pageProps }: AppProps) {
       )}
     </>
   )
+}
+
+export default function App(props: AppProps) {
+  return (
+    <LangProvider>
+      <AppContent {...props} />
+    </LangProvider>
+  );
 }
