@@ -42,7 +42,7 @@ export default function SalesPage() {
         <div className="card">
           <p className="text-gray-400 text-xs">إجمالي المبيعات</p>
           <p className="text-white text-xl font-bold">{summary?.totalSales?.toLocaleString() || 0} د.ك</p>
-          <p className="text-green-400 text-xs mt-1">{summary?.salesGrowth}</p>
+          <p className="text-green-400 text-xs mt-1">+{summary?.salesGrowth || 0}%</p>
         </div>
         <div className="card">
           <p className="text-gray-400 text-xs">عدد الفواتير</p>
