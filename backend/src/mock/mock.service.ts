@@ -361,22 +361,128 @@ export class MockService {
 
   getAIChatResponse(companyId: string, question: string) {
     const q = question.toLowerCase();
-    if (q.includes('ربح') || q.includes('margin')) {
-      return { answer: 'هامش الربح الحالي 15.2%. انخفض 2% عن الشهر الماضي بسبب زيادة مبيعات السبائك منخفضة الهامش. نوصي بالتركيز على الخواتم والأساور.', confidence: 88 };
+    
+    // Get real data for context
+    const sales = this.sales.filter(s => s.companyId === companyId);
+    const products = this.products.filter(p => p.companyId === companyId);
+    const employees = this.employees.filter(e => e.companyId === companyId);
+    const categories = this.categories.filter(c => c.companyId === companyId);
+    const branches = this.branches.filter(b => b.companyId === companyId);
+    const alerts = this.alerts.filter(a => a.companyId === companyId);
+    
+    const totalSales = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+    const totalProducts = products.length;
+    const activeProducts = products.filter(p => p.status === 'Active').length;
+    const deadStock = products.filter(p => (p.ageDays || 0) > 180).length;
+    const totalEmployees = employees.length;
+    const avgEmployeeSales = totalEmployees > 0 ? totalSales / totalEmployees : 0;
+    
+    // Category analysis
+    const categoryStats = categories.map(c => {
+      const catProducts = products.filter(p => p.categoryId === c._id);
+      const catSales = sales.filter(s => s.categoryId === c._id);
+      const catTotal = catSales.reduce((sum, s) => sum + (s.total || 0), 0);
+      return { name: c.name, products: catProducts.length, sales: catTotal };
+    }).sort((a, b) => b.sales - a.sales);
+    
+    // Branch analysis
+    const branchStats = branches.map(b => {
+      const brSales = sales.filter(s => s.branchId === b._id);
+      const brTotal = brSales.reduce((sum, s) => sum + (s.total || 0), 0);
+      return { name: b.branchName, sales: brTotal, count: brSales.length };
+    }).sort((a, b) => b.sales - a.sales);
+    
+    // Employee analysis
+    const empStats = employees.map(e => {
+      const empSales = sales.filter(s => s.employeeId === e._id);
+      const empTotal = empSales.reduce((sum, s) => sum + (s.total || 0), 0);
+      return { name: e.name, sales: empTotal, count: empSales.length };
+    }).sort((a, b) => b.sales - a.sales);
+    
+    // Smart keyword detection and response generation
+    if (q.includes('ربح') || q.includes('margin') || q.includes('مارجن') || q.includes('هوامش')) {
+      const profit = totalSales * 0.15;
+      const profitGrowth = totalSales > 0 ? '+8%' : '0%';
+      return { 
+        answer: `📊 تحليل الأرباح:\n\n• إجمالي المبيعات: ${totalSales.toLocaleString()} د.ك\n• هامش الربح المقدر: 15.2%\n• صافي الأرباح المتوقع: ${profit.toLocaleString()} د.ك\n• نمو الأرباح: ${profitGrowth}\n\n📌 التوصية: ركّز على المنتجات عالية الهامش مثل الخواتم والأساور. تجنّب السبائك منخفضة الهامش.`,
+        confidence: 88 
+      };
     }
-    if (q.includes('مخزون') || q.includes('inventory')) {
-      return { answer: 'قيمة المخزون 185,000 د.ك. منها 23,000 د.ك مخزون راكد (12.4%). الأطقم والذهب المستعمل هما الفئتان الأبطأ حركة.', confidence: 92 };
+    
+    if (q.includes('مخزون') || q.includes('inventory') || q.includes('stock') || q.includes('منتج')) {
+      const deadStockValue = deadStock * 3000;
+      return { 
+        answer: `📦 تحليل المخزون:\n\n• عدد المنتجات: ${totalProducts} (${activeProducts} نشط)\n• مخزون راكد (> 180 يوم): ${deadStock} قطعة\n• قيمة المخزون الراكد: ~${deadStockValue.toLocaleString()} د.ك\n• نسبة الركود: ${totalProducts > 0 ? ((deadStock / totalProducts) * 100).toFixed(1) : 0}%\n\n⚠️ تنبيه: ${deadStock > 10 ? 'يوجد مخزون راكد كثير! نوصي بحملة تصفية' : 'المخزون في حالة جيدة'}`,
+        confidence: 92 
+      };
     }
-    if (q.includes('فرع') || q.includes('branch')) {
-      return { answer: 'فرع السالمية هو الأفضل أداءً (Health Score: 85). فرع الأحمدي يحتاج متابعة بسبب انخفاض المبيعات 12%.', confidence: 85 };
+    
+    if (q.includes('فرع') || q.includes('branch') || q.includes('فروع')) {
+      const topBranch = branchStats[0];
+      const worstBranch = branchStats[branchStats.length - 1];
+      return { 
+        answer: `🏢 تحليل الفروع:\n\n${branchStats.map((b, i) => `${i + 1}. ${b.name}: ${b.sales.toLocaleString()} د.ك (${b.count} فاتورة)`).join('\n')}\n\n📌 أفضل فرع: ${topBranch?.name} (${topBranch?.sales.toLocaleString()} د.ك)\n⚠️ يحتاج متابعة: ${worstBranch?.name} (${worstBranch?.sales.toLocaleString()} د.ك)\n\n💡 نوصي بمراجعة أداء ${worstBranch?.name} وتطبيق أفضل الممارسات من ${topBranch?.name}`,
+        confidence: 85 
+      };
     }
-    if (q.includes('فئة') || q.includes('category')) {
-      return { answer: 'الأساور هي الفئة الأقوى (+22% نمو). الأطقم هي الأبطأ (-8% نمو). فرصة الاستثمار الأعلى في الأساور (Opportunity Score: 95).', confidence: 90 };
+    
+    if (q.includes('فئة') || q.includes('category') || q.includes('فئات') || q.includes('نوع')) {
+      return { 
+        answer: `🏷️ تحليل الفئات:\n\n${categoryStats.map((c, i) => `${i + 1}. ${c.name}: ${c.sales.toLocaleString()} د.ك (${c.products} منتج)`).join('\n')}\n\n🏆 أفضل فئة: ${categoryStats[0]?.name} (${categoryStats[0]?.sales.toLocaleString()} د.ك)\n📉 أضعف فئة: ${categoryStats[categoryStats.length - 1]?.name}\n\n💡 نوصي بتركيز جهود التسويق على الفئات الأقوى`,
+        confidence: 90 
+      };
     }
-    if (q.includes('موظف') || q.includes('employee')) {
-      return { answer: 'أحمد هو الأفضل مبيعاتاً (18,500 د.ك). نورة تحتاج تدريب (متوسط فاتورتها أقل بـ 22% من المتوسط).', confidence: 82 };
+    
+    if (q.includes('موظف') || q.includes('employee') || q.includes('موظفين') || q.includes('أفضل موظف')) {
+      return { 
+        answer: `👥 تحليل الموظفين:\n\n${empStats.map((e, i) => `${i + 1}. ${e.name}: ${e.sales.toLocaleString()} د.ك (${e.count} فاتورة)`).join('\n')}\n\n🏆 أفضل موظف: ${empStats[0]?.name} (${empStats[0]?.sales.toLocaleString()} د.ك)\n📊 متوسط المبيعات: ${avgEmployeeSales.toLocaleString()} د.ك/موظف\n\n💡 نوصي بتدريب ${empStats[empStats.length - 1]?.name} وتقديم مكافآت للأفضل أداءً`,
+        confidence: 82 
+      };
     }
-    return { answer: 'بناءً على التحليل الحالي: المبيعات تتحسن (+12%). هامش الربح مستقر (15%). المخزون يحتاج مراجعة (12% راكد). الأساور هي الفئة الأقوى.', confidence: 78 };
+    
+    if (q.includes('مبيعات') || q.includes('sales') || q.includes('فاتورة') || q.includes('sale')) {
+      const avgSale = sales.length > 0 ? totalSales / sales.length : 0;
+      return { 
+        answer: `💰 تحليل المبيعات:\n\n• إجمالي المبيعات: ${totalSales.toLocaleString()} د.ك\n• عدد الفواتير: ${sales.length}\n• متوسط الفاتورة: ${avgSale.toLocaleString()} د.ك\n• أعلى فرع: ${branchStats[0]?.name} (${branchStats[0]?.sales.toLocaleString()} د.ك)\n\n📈 نمو المبيعات: +12% مقارنة بالفترة السابقة\n\n💡 نوصي بزيادة التركيز على المنتجات الأكثر مبيعاً`,
+        confidence: 87 
+      };
+    }
+    
+    if (q.includes('توصية') || q.includes('recommendation') || q.includes('نصيحة') || q.includes('اقتراح')) {
+      const topCat = categoryStats[0];
+      const topEmp = empStats[0];
+      const deadStockCount = deadStock;
+      return { 
+        answer: `💡 توصيات ذكية بناءً على البيانات:\n\n1. 🏆 ركّز على فئة ${topCat?.name} (أفضل أداء: ${topCat?.sales.toLocaleString()} د.ك)\n2. 👏 مكافأة ${topEmp?.name} (أفضل موظف: ${topEmp?.sales.toLocaleString()} د.ك)\n3. ⚠️ تصفّي ${deadStockCount} قطعة مخزون راكد (تجاوز 180 يوم)\n4. 📢 أطلق حملة تسويقية على الفئات الأضعف\n5. 🏢 حسّن أداء الفروع الأقل أداءً\n\n🎯 هذه التوصيات مبنية على بيانات حقيقية من متجرك`,
+        confidence: 91 
+      };
+    }
+    
+    if (q.includes('تنبيه') || q.includes('alert') || q.includes('تنبيهات') || q.includes('مهم')) {
+      const highAlerts = alerts.filter(a => a.severity === 'High' || a.severity === 'Critical');
+      return { 
+        answer: `🚨 التنبيهات المهمة:\n\n${alerts.slice(0, 5).map((a, i) => `${i + 1}. ${a.title}\n   ${a.description}\n   الخطورة: ${a.severity}`).join('\n\n')}\n\n⚠️ يوجد ${highAlerts.length} تنبيهات عالية الخطورة تحتاج إجراء فوري`,
+        confidence: 88 
+      };
+    }
+    
+    if (q.includes('مرحبا') || q.includes('اهلا') || q.includes('hello') || q.includes('hi')) {
+      return { 
+        answer: `مرحباً! 👋 أنا مساعدك الذكي في منصتي MINASATI.\n\nيمكنني مساعدتك في:\n• 📊 تحليل المبيعات والأرباح\n• 📦 متابعة المخزون والمنتجات\n• 🏢 مراقبة أداء الفروع\n• 👥 تقييم أداء الموظفين\n• 🏷️ تحليل الفئات\n• 💡 تقديم توصيات ذكية\n\nاسألني عن أي شيء! 😊`,
+        confidence: 95 
+      };
+    }
+    
+    // Default intelligent response
+    const insights = [
+      `📊 ملخص سريع:\n• المبيعات: ${totalSales.toLocaleString()} د.ك (${sales.length} فاتورة)\n• المنتجات: ${totalProducts} (${activeProducts} نشط)\n• الموظفين: ${totalEmployees}\n• الفروع: ${branches.length}`,
+      `💡 رؤى ذكية:\n• أفضل فئة: ${categoryStats[0]?.name}\n• أفضل فرع: ${branchStats[0]?.name}\n• أفضل موظف: ${empStats[0]?.name}\n• مخزون راكد: ${deadStock} قطعة`,
+    ];
+    
+    return { 
+      answer: `🤖 لم أفهم السؤال بالضبط، لكن إليك معلومات مهمة:\n\n${insights[0]}\n\n${insights[1]}\n\n💡 حاول أسأل عن: المبيعات، المخزون، الفروع، الفئات، الموظفين، التوصيات، أو التنبيهات`,
+      confidence: 70 
+    };
   }
 
   getExecutiveBrief(companyId: string) {

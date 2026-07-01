@@ -30,6 +30,17 @@ export default function AICenterPage() {
     }
   };
 
+  const suggestedQuestions = [
+    'كيف حال المبيعات؟',
+    'ما هو هامش الربح؟',
+    'كيف حال المخزون؟',
+    'أفضل فرع أداءً؟',
+    'أفضل موظف؟',
+    'ما هي أفضل فئة؟',
+    'give me توصيات',
+    'التنبيهات المهمة',
+  ];
+
   const tabs = [
     { id: 'chat', label: 'AI Chat', icon: '💬' },
     { id: 'brief', label: 'Executive Brief', icon: '📋' },
@@ -63,21 +74,37 @@ export default function AICenterPage() {
           <h3 className="text-gold font-bold mb-4">AI Chat - اسأل الذكاء الاصطناعي</h3>
           <div className="h-96 overflow-y-auto p-4 rounded-xl mb-4" style={{ backgroundColor: '#0d1628', border: '1px solid #1c2d4a' }}>
             {chatHistory.length === 0 && (
-              <div className="text-center text-gray-500 mt-20">
-                <p className="text-lg mb-2">مرحباً! أنا مساعدك الذكي</p>
-                <p className="text-sm">اسألني عن أي شيء: المبيعات، المخزون، الفروع، الفئات...</p>
+              <div className="text-center text-gray-500 mt-10">
+                <p className="text-lg mb-2">مرحباً! أنا مساعدك الذكي 🤖</p>
+                <p className="text-sm mb-6">اسألني عن أي شيء في متجرك</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {suggestedQuestions.map((sq, i) => (
+                    <button key={i} onClick={() => { setChatMessage(sq); }}
+                      className="px-3 py-1.5 rounded-lg text-xs text-gold border border-gold/30 hover:bg-gold/10 transition-all">
+                      {sq}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {chatHistory.map((msg, idx) => (
               <div key={idx} className={`mb-3 flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[70%] p-3 rounded-xl text-sm ${
+                <div className={`max-w-[80%] p-4 rounded-xl text-sm whitespace-pre-line ${
                   msg.role === 'user'
                     ? 'bg-gold text-black'
                     : 'bg-white/5 text-white'
                 }`}>
-                  <p>{msg.message}</p>
+                  <p style={{ whiteSpace: 'pre-line', lineHeight: '1.8' }}>{msg.message}</p>
                   {msg.confidence !== undefined && (
-                    <p className="text-[10px] mt-1 opacity-50">الثقة: {msg.confidence}%</p>
+                    <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/10">
+                      <div className="w-16 h-1.5 rounded-full bg-gray-700 overflow-hidden">
+                        <div className="h-full rounded-full" style={{ 
+                          width: `${msg.confidence}%`, 
+                          backgroundColor: msg.confidence > 85 ? '#22C55E' : msg.confidence > 70 ? '#EAB308' : '#EF4444' 
+                        }} />
+                      </div>
+                      <span className="text-[10px] opacity-50">الثقة: {msg.confidence}%</span>
+                    </div>
                   )}
                 </div>
               </div>
