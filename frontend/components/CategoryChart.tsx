@@ -20,7 +20,7 @@ export default function CategoryChart() {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: 'bottom', labels: { color: '#D4AF37' } },
+      legend: { position: 'bottom' as const, labels: { color: '#D4AF37' } },
     },
   };
 
