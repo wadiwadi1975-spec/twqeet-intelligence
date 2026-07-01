@@ -396,4 +396,127 @@ export class MockService {
       marketImpact: 'سعر الذهب عالمياً: $2,350 (-0.5% اليوم)',
     };
   }
+
+  // ==================== BUDGET ====================
+  private budgets: any[] = [
+    {
+      _id: '1', companyId: '1', name: 'ميزانية الربع الثالث 2026', description: 'ميزانية شاملة للربع الثالث',
+      duration: 3, startDate: '2026-07-01', endDate: '2026-09-30', status: 'Active',
+      totalBudget: 180000, totalActual: 62000, currency: 'KWD',
+      categories: [
+        { name: 'الرواتب والمكافآت', budgeted: 45000, actual: 15000, icon: '💰' },
+        { name: 'الإيجار والمرافق', budgeted: 30000, actual: 10000, icon: '🏢' },
+        { name: 'المخزون والمشتريات', budgeted: 60000, actual: 22000, icon: '📦' },
+        { name: 'التسويق والإعلانات', budgeted: 15000, actual: 4000, icon: '📢' },
+        { name: 'الصيانة وال repairs', budgeted: 8000, actual: 2500, icon: '🔧' },
+        { name: 'التأمين والرسوم', budgeted: 10000, actual: 3500, icon: '🛡️' },
+        { name: 'التنقل والمواصلات', budgeted: 5000, actual: 1500, icon: '🚗' },
+        { name: 'متنوعة وطوارئ', budgeted: 7000, actual: 3500, icon: '📋' },
+      ],
+      branches: [
+        { branchId: '1', branchName: 'السالمية', budgeted: 70000, actual: 25000 },
+        { branchId: '2', branchName: 'حولي', budgeted: 55000, actual: 18000 },
+        { branchId: '3', branchName: 'الأحمدي', budgeted: 55000, actual: 19000 },
+      ],
+      monthlyBreakdown: [
+        { month: 'يوليو 2026', budgeted: 60000, actual: 22000, status: 'partial' },
+        { month: 'أغسطس 2026', budgeted: 60000, actual: 20000, status: 'partial' },
+        { month: 'سبتمبر 2026', budgeted: 60000, actual: 20000, status: 'planned' },
+      ],
+      createdAt: new Date('2026-06-15'),
+    },
+    {
+      _id: '2', companyId: '1', name: 'ميزانية نصف السنة', description: 'ميزانية متوسطة المدى لمدة 6 أشهر',
+      duration: 6, startDate: '2026-07-01', endDate: '2026-12-31', status: 'Draft',
+      totalBudget: 360000, totalActual: 0, currency: 'KWD',
+      categories: [
+        { name: 'الرواتب والمكافآت', budgeted: 90000, actual: 0, icon: '💰' },
+        { name: 'الإيجار والمرافق', budgeted: 60000, actual: 0, icon: '🏢' },
+        { name: 'المخزون والمشتريات', budgeted: 120000, actual: 0, icon: '📦' },
+        { name: 'التسويق والإعلانات', budgeted: 30000, actual: 0, icon: '📢' },
+        { name: 'الصيانة والrepairs', budgeted: 16000, actual: 0, icon: '🔧' },
+        { name: 'التأمين والرسوم', budgeted: 20000, actual: 0, icon: '🛡️' },
+        { name: 'التنقل والمواصلات', budgeted: 10000, actual: 0, icon: '🚗' },
+        { name: 'متنوعة وطوارئ', budgeted: 14000, actual: 0, icon: '📋' },
+      ],
+      branches: [
+        { branchId: '1', branchName: 'السالمية', budgeted: 140000, actual: 0 },
+        { branchId: '2', branchName: 'حولي', budgeted: 110000, actual: 0 },
+        { branchId: '3', branchName: 'الأحمدي', budgeted: 110000, actual: 0 },
+      ],
+      monthlyBreakdown: [
+        { month: 'يوليو 2026', budgeted: 60000, actual: 0, status: 'planned' },
+        { month: 'أغسطس 2026', budgeted: 60000, actual: 0, status: 'planned' },
+        { month: 'سبتمبر 2026', budgeted: 60000, actual: 0, status: 'planned' },
+        { month: 'أكتوبر 2026', budgeted: 60000, actual: 0, status: 'planned' },
+        { month: 'نوفمبر 2026', budgeted: 60000, actual: 0, status: 'planned' },
+        { month: 'ديسمبر 2026', budgeted: 60000, actual: 0, status: 'planned' },
+      ],
+      createdAt: new Date('2026-06-20'),
+    },
+  ];
+
+  private nextBudgetId = 3;
+
+  getBudgets(companyId: string) {
+    return { value: this.budgets.filter(b => b.companyId === companyId), Count: this.budgets.filter(b => b.companyId === companyId).length };
+  }
+
+  getBudgetById(id: string) {
+    return this.budgets.find(b => b._id === id) || null;
+  }
+
+  createBudget(data: any) {
+    const budget = {
+      _id: String(this.nextBudgetId++),
+      ...data,
+      totalActual: 0,
+      status: 'Draft',
+      createdAt: new Date(),
+      categories: data.categories || [
+        { name: 'الرواتب والمكافآت', budgeted: 0, actual: 0, icon: '💰' },
+        { name: 'الإيجار والمرافق', budgeted: 0, actual: 0, icon: '🏢' },
+        { name: 'المخزون والمشتريات', budgeted: 0, actual: 0, icon: '📦' },
+        { name: 'التسويق والإعلانات', budgeted: 0, actual: 0, icon: '📢' },
+        { name: 'الصيانة', budgeted: 0, actual: 0, icon: '🔧' },
+        { name: 'التأمين والرسوم', budgeted: 0, actual: 0, icon: '🛡️' },
+        { name: 'التنقل والمواصلات', budgeted: 0, actual: 0, icon: '🚗' },
+        { name: 'متنوعة وطوارئ', budgeted: 0, actual: 0, icon: '📋' },
+      ],
+      branches: data.branches || [],
+      monthlyBreakdown: data.monthlyBreakdown || [],
+    };
+    this.budgets.push(budget);
+    return budget;
+  }
+
+  updateBudget(id: string, data: any) {
+    const idx = this.budgets.findIndex(b => b._id === id);
+    if (idx === -1) return null;
+    this.budgets[idx] = { ...this.budgets[idx], ...data };
+    return this.budgets[idx];
+  }
+
+  deleteBudget(id: string) {
+    const idx = this.budgets.findIndex(b => b._id === id);
+    if (idx === -1) return false;
+    this.budgets.splice(idx, 1);
+    return true;
+  }
+
+  getBudgetSummary(companyId: string) {
+    const budgets = this.budgets.filter(b => b.companyId === companyId);
+    const active = budgets.filter(b => b.status === 'Active');
+    const draft = budgets.filter(b => b.status === 'Draft');
+    const totalBudget = budgets.reduce((sum, b) => sum + b.totalBudget, 0);
+    const totalActual = budgets.reduce((sum, b) => sum + b.totalActual, 0);
+    return {
+      totalBudgets: budgets.length,
+      activeBudgets: active.length,
+      draftBudgets: draft.length,
+      totalBudget,
+      totalActual,
+      utilization: totalBudget > 0 ? ((totalActual / totalBudget) * 100).toFixed(1) : 0,
+    };
+  }
 }

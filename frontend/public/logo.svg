@@ -1,59 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
   <defs>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F5D060"/>
-      <stop offset="30%" stop-color="#D4AF37"/>
-      <stop offset="70%" stop-color="#C9A227"/>
-      <stop offset="100%" stop-color="#B8960C"/>
-    </linearGradient>
-    <linearGradient id="goldGradV" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#F5D060"/>
       <stop offset="50%" stop-color="#D4AF37"/>
-      <stop offset="100%" stop-color="#A07C1C"/>
-    </linearGradient>
-    <linearGradient id="diamondLight" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFF5D6"/>
-      <stop offset="30%" stop-color="#F5D060"/>
-      <stop offset="60%" stop-color="#D4AF37"/>
       <stop offset="100%" stop-color="#B8960C"/>
     </linearGradient>
-    <linearGradient id="diamondDark" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#C9A227"/>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5D060"/>
+      <stop offset="40%" stop-color="#D4AF37"/>
       <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="d1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8E1"/>
+      <stop offset="20%" stop-color="#F5D060"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="80%" stop-color="#B8960C"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="d2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#6B4F0A"/>
+    </linearGradient>
+    <linearGradient id="d3" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8E1"/>
+      <stop offset="100%" stop-color="#D4AF37"/>
     </linearGradient>
   </defs>
 
-  <!-- Incomplete circle -->
-  <path d="M 275,150 A 95,95 0 1,1 150,55" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round"/>
+  <!-- Outer circle - gold ring, open at top-right -->
+  <path d="M 310,165 A 115,115 0 1,1 155,60" 
+        fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round"/>
 
-  <!-- Bar chart -->
-  <rect x="100" y="92" width="18" height="38" rx="2" fill="url(#goldGradV)"/>
-  <rect x="123" y="72" width="18" height="58" rx="2" fill="url(#goldGradV)"/>
-  <rect x="146" y="55" width="18" height="75" rx="2" fill="url(#goldGradV)"/>
-  <rect x="169" y="42" width="18" height="88" rx="2" fill="url(#goldGradV)"/>
+  <!-- Bar 1 (leftmost, shortest) -->
+  <rect x="140" y="130" width="24" height="55" rx="3" fill="url(#g2)"/>
 
-  <!-- Upward arrow -->
-  <path d="M 98,128 L 195,38" stroke="url(#goldGrad)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-  <polygon points="195,38 185,30 195,20 205,32" fill="url(#goldGrad)"/>
+  <!-- Bar 2 -->
+  <rect x="172" y="108" width="24" height="77" rx="3" fill="url(#g2)"/>
 
-  <!-- Diamond top face -->
-  <polygon points="175,165 245,200 175,245 105,200" fill="url(#diamondLight)"/>
+  <!-- Bar 3 -->
+  <rect x="204" y="82" width="24" height="103" rx="3" fill="url(#g2)"/>
 
-  <!-- Diamond highlight -->
-  <polygon points="175,165 205,182 175,195 145,182" fill="#FFF5D6" opacity="0.4"/>
+  <!-- Bar 4 (rightmost, tallest) -->
+  <rect x="236" y="56" width="24" height="129" rx="3" fill="url(#g2)"/>
 
-  <!-- Diamond left shadow -->
-  <polygon points="175,165 105,200 145,182" fill="url(#diamondDark)" opacity="0.5"/>
+  <!-- Upward arrow line -->
+  <path d="M 145,170 L 268,42" stroke="url(#g1)" stroke-width="6" stroke-linecap="round" fill="none"/>
 
-  <!-- Diamond right shadow -->
-  <polygon points="175,165 245,200 205,182" fill="#C9A227" opacity="0.4"/>
+  <!-- Arrow head -->
+  <polygon points="268,42 254,36 268,22 282,38" fill="url(#g1)"/>
 
-  <!-- Diamond bottom left -->
-  <polygon points="105,200 175,245 175,195" fill="#8B6914" opacity="0.45"/>
+  <!-- Diamond - top facet (bright) -->
+  <polygon points="225,235 305,280 225,340 145,280" fill="url(#d1)"/>
 
-  <!-- Diamond bottom right -->
-  <polygon points="245,200 175,245 175,195" fill="#A07C1C" opacity="0.4"/>
+  <!-- Diamond - top highlight -->
+  <polygon points="225,235 260,255 225,270 190,255" fill="#FFFEF5" opacity="0.45"/>
 
-  <!-- Diamond center line -->
-  <line x1="175" y1="165" x2="175" y2="245" stroke="#FFF5D6" stroke-width="0.8" opacity="0.2"/>
+  <!-- Diamond - left facet -->
+  <polygon points="225,235 145,280 190,255" fill="url(#d2)" opacity="0.6"/>
+
+  <!-- Diamond - right facet -->
+  <polygon points="225,235 305,280 260,255" fill="#C9A227" opacity="0.5"/>
+
+  <!-- Diamond - bottom-left -->
+  <polygon points="145,280 225,340 225,270" fill="#6B4F0A" opacity="0.55"/>
+
+  <!-- Diamond - bottom-right -->
+  <polygon points="305,280 225,340 225,270" fill="#8B6914" opacity="0.5"/>
+
+  <!-- Diamond - center light line -->
+  <line x1="225" y1="235" x2="225" y2="340" stroke="#FFFEF5" stroke-width="1" opacity="0.3"/>
+
+  <!-- Diamond - inner facet lines -->
+  <line x1="190" y1="255" x2="225" y2="270" stroke="#FFFEF5" stroke-width="0.5" opacity="0.2"/>
+  <line x1="260" y1="255" x2="225" y2="270" stroke="#FFFEF5" stroke-width="0.5" opacity="0.2"/>
 </svg>
