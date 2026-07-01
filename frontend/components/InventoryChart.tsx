@@ -3,6 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.defaults.color = '#FFFFFF';
 
 export default function InventoryChart() {
   const data = {
@@ -22,6 +23,7 @@ export default function InventoryChart() {
     responsive: true,
     maintainAspectRatio: false,
     cutout: '65%',
+    color: '#FFFFFF',
     plugins: {
       legend: {
         position: 'right' as const,
