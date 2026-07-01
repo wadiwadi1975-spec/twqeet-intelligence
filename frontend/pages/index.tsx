@@ -214,7 +214,7 @@ export default function Dashboard() {
       <div className="text-center py-4 text-gray-500 text-xs">
         <span>منصتي © 2024</span>
         <span className="mx-2">—</span>
-        <span>جميع الحقوق محفوظة</span>
+        <span>جميع الحقوق محفوظة wadi-1975</span>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
       <div className="mt-10 text-center">
         <p className="text-gold text-sm mb-1 opacity-70">ذكاء القرارات.. لزيادة الربح وتقليل المخاطر</p>
-        <p className="text-gray-600 text-xs">© 2024 منصتي MINASATI</p>
+        <p className="text-gray-600 text-xs">© 2024 منصتي MINASATI - جميع الحقوق محفوظة wadi-1975</p>
       </div>
     </div>
   );
