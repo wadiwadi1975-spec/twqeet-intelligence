@@ -49,8 +49,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="w-full max-w-md p-8 border border-gold rounded-lg">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gold">TWQEET</h1>
-          <p className="text-gold text-sm">Intelligence Platform</p>
+          <h1 className="text-4xl font-bold text-gold">منصتي</h1>
+          <p className="text-gold text-sm">MINASATI</p>
         </div>
 
         <h2 className="text-2xl font-bold text-gold text-center mb-6">إنشاء حساب جديد</h2>

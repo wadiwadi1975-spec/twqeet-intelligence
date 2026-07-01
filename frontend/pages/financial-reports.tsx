@@ -77,7 +77,7 @@ export default function FinancialReportsPage() {
   const exportToPDF = () => {
     if (!data) return;
     const content = [
-      'تقرير مالي - TWQEET Intelligence',
+      'تقرير مالي - منصتي MINASATI',
       `التاريخ: ${new Date().toLocaleDateString('ar-KW')}`,
       `إجمالي الصفوف: ${data.totalRows}`,
       `إجمالي الإيرادات: ${data.totalRevenue.toLocaleString()} د.ك`,

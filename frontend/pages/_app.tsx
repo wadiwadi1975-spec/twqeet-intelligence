@@ -14,8 +14,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>TWQEET Intelligence - ذكاء القرارات</title>
-        <meta name="description" content="ذكاء القرارات.. لزيادة الربح وتقليل المخاطر" />
+        <title>منصتي - ذكاء القرارات</title>
+        <meta name="description" content="ذكاء القرارات.. زيادة الربح وتقليل المخاطر" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#0a1628" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

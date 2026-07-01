@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Logo from '../components/Logo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -38,8 +39,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="card">
-      <h2 className="text-2xl font-bold text-white text-center mb-6">تسجيل الدخول</h2>
+    <div className="card max-w-md w-full">
+      {/* Logo */}
+      <div className="flex justify-center mb-6">
+        <Logo size="xl" />
+      </div>
+
+      <h2 className="text-xl font-bold text-white text-center mb-6">تسجيل الدخول</h2>
 
       {error && (
         <div className="p-3 rounded-xl mb-4 text-center text-sm" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', border: '1px solid rgba(239, 68, 68, 0.2)' }}>

@@ -211,7 +211,7 @@ export default function Dashboard() {
 
       {/* Footer */}
       <div className="text-center py-4 text-gray-500 text-xs">
-        <span>TWQEET Intelligence © 2024</span>
+        <span>منصتي © 2024</span>
         <span className="mx-2">—</span>
         <span>جميع الحقوق محفوظة</span>
       </div>

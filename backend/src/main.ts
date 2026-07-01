@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   console.log('');
   console.log('  ╔══════════════════════════════════════════╗');
-  console.log('  ║     TWQEET Intelligence Platform        ║');
+  console.log('  ║     منصتي MINASATI Platform            ║');
   console.log('  ║     ذكاء القرارات.. لزيادة الربح       ║');
   console.log('  ╚══════════════════════════════════════════╝');
   console.log('');
