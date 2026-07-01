@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D060"/>
+      <stop offset="30%" stop-color="#D4AF37"/>
+      <stop offset="70%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#B8960C"/>
+    </linearGradient>
+    <linearGradient id="goldGradV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5D060"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#A07C1C"/>
+    </linearGradient>
+    <linearGradient id="diamondLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5D6"/>
+      <stop offset="30%" stop-color="#F5D060"/>
+      <stop offset="60%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#B8960C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="200" height="200" fill="#0a1628"/>
+
+  <!-- Incomplete circle -->
+  <path d="M 155,100 A 68,68 0 1,1 105,32" fill="none" stroke="url(#goldGrad)" stroke-width="5.5" stroke-linecap="round"/>
+
+  <!-- Bar chart -->
+  <rect x="60" y="62" width="13" height="28" rx="2" fill="url(#goldGradV)"/>
+  <rect x="77" y="48" width="13" height="42" rx="2" fill="url(#goldGradV)"/>
+  <rect x="94" y="38" width="13" height="52" rx="2" fill="url(#goldGradV)"/>
+  <rect x="111" y="30" width="13" height="60" rx="2" fill="url(#goldGradV)"/>
+
+  <!-- Arrow -->
+  <path d="M 58,88 L 120,34" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <polygon points="120,34 112,28 120,22 128,30" fill="url(#goldGrad)"/>
+
+  <!-- Diamond -->
+  <polygon points="100,105 135,128 100,155 65,128" fill="url(#diamondLight)"/>
+  <polygon points="100,105 118,116 100,128 82,116" fill="#FFF5D6" opacity="0.35"/>
+  <polygon points="100,105 65,128 82,116" fill="#8B6914" opacity="0.5"/>
+  <polygon points="100,105 135,128 118,116" fill="#C9A227" opacity="0.4"/>
+  <polygon points="65,128 100,155 100,128" fill="#8B6914" opacity="0.45"/>
+  <polygon points="135,128 100,155 100,128" fill="#A07C1C" opacity="0.4"/>
+
+  <!-- Text -->
+  <text x="100" y="185" fill="#D4AF37" font-size="16" font-weight="bold" font-family="Arial" text-anchor="middle" letter-spacing="2">TWQEET</text>
+</svg>

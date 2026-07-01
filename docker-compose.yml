@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: twqeet-mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: twqeet123
+      MONGO_INITDB_DATABASE: twqeet
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - twqeet-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: twqeet-backend
+    restart: always
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: development
+      MONGO_URI: mongodb://admin:twqeet123@mongodb:27017/twqeet?authSource=admin
+      JWT_SECRET: twqeet-jwt-secret-key-2026
+      STRIPE_SECRET_KEY: sk_test_your_stripe_key
+      PORT: 4000
+    depends_on:
+      - mongodb
+    networks:
+      - twqeet-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: twqeet-frontend
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+    depends_on:
+      - backend
+    networks:
+      - twqeet-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  twqeet-network:
+    driver: bridge

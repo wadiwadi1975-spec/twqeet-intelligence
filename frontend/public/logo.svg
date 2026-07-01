@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#000"/>
+  
+  <!-- Outer Diamond -->
+  <polygon points="100,10 190,100 100,190 10,100" fill="none" stroke="#D4AF37" stroke-width="4"/>
+  
+  <!-- Inner Diamond -->
+  <polygon points="100,40 160,100 100,160 40,100" fill="#D4AF37"/>
+  
+  <!-- T Letter -->
+  <text x="100" y="115" text-anchor="middle" fill="#000" font-size="50" font-weight="bold" font-family="Arial">T</text>
+  
+  <!-- Decorative dots -->
+  <circle cx="100" cy="10" r="5" fill="#D4AF37"/>
+  <circle cx="190" cy="100" r="5" fill="#D4AF37"/>
+  <circle cx="100" cy="190" r="5" fill="#D4AF37"/>
+  <circle cx="10" cy="100" r="5" fill="#D4AF37"/>
+</svg>
