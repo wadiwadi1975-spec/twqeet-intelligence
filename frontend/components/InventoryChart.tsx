@@ -26,7 +26,7 @@ export default function InventoryChart() {
       legend: {
         position: 'right' as const,
         labels: {
-          color: '#8B9DC3',
+          color: '#FFFFFF',
           font: { family: 'Cairo', size: 12 },
           padding: 16,
           usePointStyle: true,
@@ -69,7 +69,7 @@ export default function InventoryChart() {
       <div style={{ height: '280px' }}>
         <Doughnut data={data} options={options as any} />
       </div>
-      <div className="mt-3 text-center text-gray-500 text-xs">
+      <div className="mt-3 text-center text-white text-xs">
         إجمالي المخزون: 50,000 جم
       </div>
     </div>
