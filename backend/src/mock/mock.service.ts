@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class MockService {
   private users: any[] = [
-    { _id: '1', email: 'admin@twqeet.com', password: '$2a$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ12', role: 'SuperAdmin', name: 'المدير العام', companyId: '1', branchId: '1', createdAt: new Date(), status: 'Active' },
+    { _id: '1', email: 'admin@twqeet.com', password: '$2a$10$dq7YJLjnmO/EKAguAqk5LOh/ygq/IHReGXzun4s/fS1xpGaVa2Xcu', role: 'SuperAdmin', name: 'المدير العام', companyId: '1', branchId: '1', createdAt: new Date(), status: 'Active' },
     { _id: '2', email: 'manager@twqeet.com', password: '$2a$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ12', role: 'BranchManager', name: 'مدير الفرع', companyId: '1', branchId: '1', createdAt: new Date(), status: 'Active' },
   ];
 
