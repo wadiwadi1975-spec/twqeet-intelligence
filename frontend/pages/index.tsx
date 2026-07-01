@@ -3,6 +3,7 @@ import SalesChart from '../components/SalesChart';
 import InventoryChart from '../components/InventoryChart';
 import AlertCard from '../components/AlertCard';
 import * as XLSX from 'xlsx';
+import { API_URL } from '../config';
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
@@ -37,11 +38,11 @@ export default function Dashboard() {
     if (u) setUser(JSON.parse(u));
 
     Promise.all([
-      fetch('http://localhost:4000/dashboard/summary?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/dashboard/health?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/dashboard/kpis?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/alerts?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/ai/brief?companyId=1').then(r => r.json()),
+      fetch(`${API_URL}/dashboard/summary?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/dashboard/health?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/dashboard/kpis?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/alerts?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/ai/brief?companyId=1`).then(r => r.json()),
     ]).then(([s, h, k, a, b]) => {
       setSummary(s); setHealth(h); setKpis(k); setAlerts(a.value || a.alerts || []); setBrief(b);
       setLoading(false);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function ExecutiveDashboardPage() {
   const [decisions, setDecisions] = useState<any[]>([]);
@@ -10,11 +11,11 @@ export default function ExecutiveDashboardPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:4000/executive/decisions?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/executive/brief?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/executive/opportunities?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/executive/budget?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/executive/radar?companyId=1').then(r => r.json()),
+      fetch(`${API_URL}/executive/decisions?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/executive/brief?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/executive/opportunities?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/executive/budget?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/executive/radar?companyId=1`).then(r => r.json()),
     ]).then(([d, b, o, bu, ra]) => {
       setDecisions(d); setBrief(b); setOpportunities(o); setBudget(bu); setRadar(ra);
       setLoading(false);

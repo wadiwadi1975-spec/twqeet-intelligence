@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function AICenterPage() {
   const [activeTab, setActiveTab] = useState('chat');
@@ -10,10 +11,10 @@ export default function AICenterPage() {
   const [recommendations, setRecommendations] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/ai/brief?companyId=1').then(r => r.json()).then(setBrief);
-    fetch('http://localhost:4000/ai/forecast?companyId=1').then(r => r.json()).then(d => setForecast(d.value || d.forecasts || []));
-    fetch('http://localhost:4000/ai/market?companyId=1').then(r => r.json()).then(setMarket);
-    fetch('http://localhost:4000/ai/insights?companyId=1').then(r => r.json()).then(d => setRecommendations(d.recommendations || []));
+    fetch(`${API_URL}/ai/brief?companyId=1`).then(r => r.json()).then(setBrief);
+    fetch(`${API_URL}/ai/forecast?companyId=1`).then(r => r.json()).then(d => setForecast(d.value || d.forecasts || []));
+    fetch(`${API_URL}/ai/market?companyId=1`).then(r => r.json()).then(setMarket);
+    fetch(`${API_URL}/ai/insights?companyId=1`).then(r => r.json()).then(d => setRecommendations(d.recommendations || []));
   }, []);
 
   const handleChat = async () => {
@@ -22,7 +23,7 @@ export default function AICenterPage() {
     setChatHistory(prev => [...prev, { role: 'user', message: q }]);
     setChatMessage('');
     try {
-      const res = await fetch(`http://localhost:4000/ai/chat?companyId=1&q=${encodeURIComponent(q)}`);
+      const res = await fetch(`${API_URL}/ai/chat?companyId=1&q=${encodeURIComponent(q)}`);
       const data = await res.json();
       setChatHistory(prev => [...prev, { role: 'ai', message: data.answer, confidence: data.confidence }]);
     } catch {

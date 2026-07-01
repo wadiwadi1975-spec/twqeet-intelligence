@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const DEFAULT_ALERTS = [
   { _id: '1', type: 'Sales', title: 'انخفاض مبيعات فرع السالمية', description: 'انخفاض مبيعات فرع السالمية بنسبة 20% مقارنة بالشهر الماضي', priority: 'Critical', status: 'Open', createdAt: '2026-06-30' },
@@ -16,7 +17,7 @@ export default function AlertsPage() {
   const [source, setSource] = useState('افتراضي');
 
   useEffect(() => {
-    fetch('http://localhost:4000/alerts?companyId=1')
+    fetch(`${API_URL}/alerts?companyId=1`)
       .then(r => r.json())
       .then(d => {
         const apiAlerts = d.value || d.alerts || [];

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/employees/leaderboard?companyId=1')
+    fetch(`${API_URL}/employees/leaderboard?companyId=1`)
       .then(r => r.json())
       .then(data => { setEmployees(data); setLoading(false); })
       .catch(() => setLoading(false));

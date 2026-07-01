@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function BudgetPage() {
   const [budgets, setBudgets] = useState<any[]>([]);
@@ -8,18 +9,18 @@ export default function BudgetPage() {
   const [newBudget, setNewBudget] = useState({ name: '', description: '', duration: 3, startDate: '' });
 
   useEffect(() => {
-    fetch('http://localhost:4000/budgets?companyId=1').then(r => r.json()).then(d => {
+    fetch(`${API_URL}/budgets?companyId=1`).then(r => r.json()).then(d => {
       setBudgets(d.value || []);
       if (d.value?.length > 0) setSelectedBudget(d.value[0]);
     });
-    fetch('http://localhost:4000/budgets/summary?companyId=1').then(r => r.json()).then(setSummary);
+    fetch(`${API_URL}/budgets/summary?companyId=1`).then(r => r.json()).then(setSummary);
   }, []);
 
   const handleCreate = async () => {
     if (!newBudget.name || !newBudget.startDate) return;
     const end = new Date(newBudget.startDate);
     end.setMonth(end.getMonth() + newBudget.duration);
-    const res = await fetch('http://localhost:4000/budgets', {
+    const res = await fetch(`${API_URL}/budgets`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/categories/intelligence?companyId=1')
+    fetch(`${API_URL}/categories/intelligence?companyId=1`)
       .then(r => r.json())
       .then(data => { setCategories(data); setLoading(false); })
       .catch(() => setLoading(false));

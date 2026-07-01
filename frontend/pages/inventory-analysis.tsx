@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function InventoryAnalysisPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -7,8 +8,8 @@ export default function InventoryAnalysisPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:4000/products?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/categories/intelligence?companyId=1').then(r => r.json()),
+      fetch(`${API_URL}/products?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/categories/intelligence?companyId=1`).then(r => r.json()),
     ]).then(([p, c]) => {
       setProducts(p.products || p || []);
       setCategories(c);

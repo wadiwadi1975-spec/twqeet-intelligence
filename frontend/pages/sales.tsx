@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 export default function SalesPage() {
   const [sales, setSales] = useState<any[]>([]);
@@ -6,8 +7,8 @@ export default function SalesPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:4000/sales?companyId=1').then(r => r.json()),
-      fetch('http://localhost:4000/dashboard/summary?companyId=1').then(r => r.json()),
+      fetch(`${API_URL}/sales?companyId=1`).then(r => r.json()),
+      fetch(`${API_URL}/dashboard/summary?companyId=1`).then(r => r.json()),
     ]).then(([s, sum]) => {
       setSales(s.value || s.sales || []);
       setSummary(sum);
