@@ -10,8 +10,8 @@ export default function Document() {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="منصتي" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/logo.jpeg" />
-        <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+        <link rel="apple-touch-icon" href="/logo.svg" />
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
       </Head>
       <body style={{ backgroundColor: '#0a1628' }}>
         <Main />
