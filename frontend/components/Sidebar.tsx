@@ -66,7 +66,7 @@ const menuItems = [
   )},
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -75,9 +75,25 @@ export default function Sidebar() {
     router.push('/login');
   };
 
+  const handleNavClick = () => {
+    if (onClose) onClose();
+  };
+
   return (
-    <div className="w-64 min-h-screen flex flex-col" style={{ backgroundColor: '#0a1628' }}>
-      <div className="p-5 flex flex-col items-center">
+    <div className="w-64 h-screen flex flex-col" style={{ backgroundColor: '#0a1628' }}>
+      {/* Mobile Close Button */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b" style={{ borderColor: '#1c2d4a' }}>
+        <Logo size="sm" />
+        <button onClick={onClose} className="p-2 rounded-lg text-gray-400 hover:text-white" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Desktop Logo */}
+      <div className="hidden lg:block p-5 flex flex-col items-center">
         <Logo size="sm" />
       </div>
 
@@ -88,6 +104,7 @@ export default function Sidebar() {
             <Link
               key={item.path}
               href={item.path}
+              onClick={handleNavClick}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium ${
                 isActive
                   ? 'text-black font-bold'

@@ -204,3 +204,34 @@ tr:hover td {
   background-color: rgba(212, 175, 55, 0.15);
   color: #D4AF37;
 }
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .card {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-size: 1.25rem !important;
+  }
+
+  h2, h3 {
+    font-size: 1rem !important;
+  }
+}
