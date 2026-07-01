@@ -7,7 +7,7 @@ export default function AlertsPage() {
   useEffect(() => {
     fetch('http://localhost:4000/alerts?companyId=1')
       .then(r => r.json())
-      .then(d => setAlerts(d.alerts || []));
+      .then(d => setAlerts(d.value || d.alerts || []));
   }, []);
 
   const filteredAlerts = filter === 'all' ? alerts : alerts.filter(a => a.priority === filter);
@@ -61,10 +61,10 @@ export default function AlertsPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`badge ${colors.badge}`}>{alert.priority}</span>
-                    <span className="text-gray-500 text-[10px]">{alert.category}</span>
-                    <span className="text-gray-600 text-[10px]">{alert.timestamp}</span>
+                    <span className="text-gray-500 text-[10px]">{alert.type || alert.category}</span>
+                    <span className="text-gray-600 text-[10px]">{alert.createdAt || alert.timestamp}</span>
                   </div>
-                  <p className="text-white font-semibold text-sm">{alert.message}</p>
+                  <p className="text-white font-semibold text-sm">{alert.description || alert.title || alert.message}</p>
                   {alert.aiAnalysis && (
                     <div className="mt-2 p-3 rounded-lg" style={{ backgroundColor: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.1)' }}>
                       <p className="text-gold text-xs font-semibold mb-1">AI Analysis:</p>

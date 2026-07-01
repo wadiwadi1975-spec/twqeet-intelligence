@@ -11,7 +11,7 @@ export default function AICenterPage() {
 
   useEffect(() => {
     fetch('http://localhost:4000/ai/brief?companyId=1').then(r => r.json()).then(setBrief);
-    fetch('http://localhost:4000/ai/forecast?companyId=1').then(r => r.json()).then(setForecast);
+    fetch('http://localhost:4000/ai/forecast?companyId=1').then(r => r.json()).then(d => setForecast(d.value || d.forecasts || []));
     fetch('http://localhost:4000/ai/market?companyId=1').then(r => r.json()).then(setMarket);
     fetch('http://localhost:4000/ai/insights?companyId=1').then(r => r.json()).then(d => setRecommendations(d.recommendations || []));
   }, []);

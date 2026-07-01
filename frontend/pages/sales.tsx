@@ -9,7 +9,7 @@ export default function SalesPage() {
       fetch('http://localhost:4000/sales?companyId=1').then(r => r.json()),
       fetch('http://localhost:4000/dashboard/summary?companyId=1').then(r => r.json()),
     ]).then(([s, sum]) => {
-      setSales(s.sales || s || []);
+      setSales(s.value || s.sales || []);
       setSummary(sum);
     });
   }, []);
@@ -54,7 +54,7 @@ export default function SalesPage() {
         </div>
         <div className="card">
           <p className="text-gray-400 text-xs">العملاء</p>
-          <p className="text-white text-xl font-bold">{summary?.totalCustomers || 0}</p>
+          <p className="text-white text-xl font-bold">{summary?.customerCount || summary?.totalCustomers || 0}</p>
         </div>
       </div>
 
@@ -66,8 +66,8 @@ export default function SalesPage() {
             <thead>
               <tr>
                 <th>رقم الفاتورة</th>
-                <th>العميل</th>
-                <th>المنتجات</th>
+                <th>الفرع</th>
+                <th>الوزن</th>
                 <th>المبلغ</th>
                 <th>الحالة</th>
                 <th>التاريخ</th>
@@ -77,15 +77,11 @@ export default function SalesPage() {
               {sales.slice(0, 20).map((sale: any) => (
                 <tr key={sale._id}>
                   <td className="font-mono text-gold text-xs">#{sale.invoiceNumber}</td>
-                  <td className="text-white">{sale.customer}</td>
-                  <td>
-                    <div className="text-xs text-gray-300">
-                      {sale.items?.length || sale.saleItems?.length || 0} منتج
-                    </div>
-                  </td>
-                  <td className="font-bold text-white">{sale.totalAmount?.toLocaleString()} د.ك</td>
+                  <td className="text-white">فرع {sale.branchId}</td>
+                  <td className="text-white">{sale.totalWeight} جرام</td>
+                  <td className="font-bold text-white">{sale.total?.toLocaleString()} د.ك</td>
                   <td><span className={`badge ${getStatusColor(sale.status)}`}>{getStatusText(sale.status)}</span></td>
-                  <td className="text-gray-400 text-xs">{sale.date}</td>
+                  <td className="text-gray-400 text-xs">{new Date(sale.invoiceDate).toLocaleDateString('ar-KW')}</td>
                 </tr>
               ))}
             </tbody>
