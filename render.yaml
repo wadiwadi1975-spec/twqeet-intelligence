@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: twqeet-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main.js
+    envVars:
+      - key: NODE_ENV
+        value: production
