@@ -93,20 +93,20 @@ export default function PriceTicker() {
   const getChangeArrow = (change: number) => change >= 0 ? '▲' : '▼';
 
   return (
-    <div className="w-full overflow-hidden" style={{ backgroundColor: '#0a1628', borderBottom: '1px solid #1c2d4a' }}>
+    <div className="w-full overflow-hidden" style={{ backgroundColor: '#0a1628', borderBottom: '2px solid #D4AF37' }}>
       {/* Metals Row */}
-      <div className="flex items-center" style={{ height: '36px' }}>
-        <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.1)' }}>
-          💎metals
+      <div className="flex items-center ticker-row">
+        <div className="px-2 lg:px-3 text-gold text-xs lg:text-sm font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+          💎
         </div>
         <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee" style={{ animation: 'marquee 30s linear infinite' }}>
+          <div className="flex items-center animate-marquee-mobile lg:animate-marquee">
             {[...metals, ...metals, ...metals].map((m, i) => (
-              <div key={i} className="flex items-center gap-2 px-4 whitespace-nowrap">
-                <span>{m.icon}</span>
-                <span className="text-white text-xs font-semibold">{m.name}</span>
-                <span className="text-gold text-xs font-bold">${m.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-                <span className="text-xs" style={{ color: getChangeColor(m.change) }}>
+              <div key={i} className="flex items-center gap-1 lg:gap-2 px-3 lg:px-4 whitespace-nowrap">
+                <span className="text-sm lg:text-base">{m.icon}</span>
+                <span className="text-white text-xs lg:text-sm font-bold">{m.name}</span>
+                <span className="text-gold text-sm lg:text-base font-bold">${m.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+                <span className="text-xs lg:text-sm font-bold" style={{ color: getChangeColor(m.change) }}>
                   {getChangeArrow(m.change)} {Math.abs(m.change).toFixed(2)}%
                 </span>
               </div>
@@ -116,17 +116,17 @@ export default function PriceTicker() {
       </div>
 
       {/* Gold Gram Prices */}
-      <div className="flex items-center" style={{ height: '36px', borderTop: '1px solid #1c2d4a' }}>
-        <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.1)' }}>
-          🏆Gram
+      <div className="flex items-center ticker-row" style={{ borderTop: '1px solid #1c2d4a' }}>
+        <div className="px-2 lg:px-3 text-gold text-xs lg:text-sm font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+          🏆
         </div>
         <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee" style={{ animation: 'marquee 25s linear infinite' }}>
+          <div className="flex items-center animate-marquee-mobile lg:animate-marquee" style={{ animationDuration: '20s' }}>
             {[...goldGrams, ...goldGrams, ...goldGrams].map((g, i) => (
-              <div key={i} className="flex items-center gap-3 px-4 whitespace-nowrap">
-                <span className="text-gold text-xs font-bold">{g.karat}</span>
-                <span className="text-white text-xs">{g.priceKWD.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
-                <span className="text-green-400 text-xs">${g.priceUSD.toFixed(2)} <span className="text-gray-400">USD</span></span>
+              <div key={i} className="flex items-center gap-2 lg:gap-3 px-3 lg:px-4 whitespace-nowrap">
+                <span className="text-gold text-sm lg:text-base font-bold">{g.karat}</span>
+                <span className="text-white text-xs lg:text-sm font-bold">{g.priceKWD.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
+                <span className="text-green-400 text-xs lg:text-sm font-bold">${g.priceUSD.toFixed(2)}</span>
               </div>
             ))}
           </div>
@@ -134,17 +134,17 @@ export default function PriceTicker() {
       </div>
 
       {/* Currencies Row */}
-      <div className="flex items-center" style={{ height: '36px', borderTop: '1px solid #1c2d4a' }}>
-        <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.1)' }}>
-          💱Currency
+      <div className="flex items-center ticker-row" style={{ borderTop: '1px solid #1c2d4a' }}>
+        <div className="px-2 lg:px-3 text-gold text-xs lg:text-sm font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+          💱
         </div>
         <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee" style={{ animation: 'marquee 35s linear infinite' }}>
+          <div className="flex items-center animate-marquee-mobile lg:animate-marquee" style={{ animationDuration: '25s' }}>
             {[...currencies, ...currencies, ...currencies].map((c, i) => (
-              <div key={i} className="flex items-center gap-2 px-4 whitespace-nowrap">
-                <span>{c.icon}</span>
-                <span className="text-white text-xs font-semibold">{c.code}</span>
-                <span className="text-gold text-xs font-bold">{c.rate.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
+              <div key={i} className="flex items-center gap-1 lg:gap-2 px-3 lg:px-4 whitespace-nowrap">
+                <span className="text-sm lg:text-base">{c.icon}</span>
+                <span className="text-white text-xs lg:text-sm font-bold">{c.code}</span>
+                <span className="text-gold text-sm lg:text-base font-bold">{c.rate.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
               </div>
             ))}
           </div>
@@ -156,11 +156,39 @@ export default function PriceTicker() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-33.33%); }
         }
+        @keyframes marquee-mobile {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.33%); }
+        }
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
-        .animate-marquee:hover {
+        .animate-marquee-mobile {
+          animation: marquee-mobile 15s linear infinite;
+        }
+        .animate-marquee:hover, .animate-marquee-mobile:hover {
           animation-play-state: paused;
+        }
+        .ticker-row {
+          height: 32px;
+        }
+        @media (min-width: 1024px) {
+          .ticker-row {
+            height: 36px;
+          }
+        }
+        .ticker-label {
+          min-width: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        @media (min-width: 1024px) {
+          .ticker-label {
+            min-width: 50px;
+            padding-left: 12px;
+            padding-right: 12px;
+          }
         }
       `}</style>
     </div>
