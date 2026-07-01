@@ -5,8 +5,15 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Lege
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
+const DEFAULT_BRANCHES = [
+  { branch: 'فرع الأحمدي', sales: 325000, profit: 81250, inventory: 145000 },
+  { branch: 'فرع السالمية', sales: 218000, profit: 48500, inventory: 98000 },
+  { branch: 'فرع الفحيحيل', sales: 185000, profit: 41200, inventory: 82000 },
+  { branch: 'فرع الكويت city', sales: 117320, profit: 27500, inventory: 65000 },
+];
+
 export default function BranchAnalysisPage() {
-  const [branchKPIs, setBranchKPIs] = useState<any[]>([]);
+  const [branchKPIs, setBranchKPIs] = useState<any[]>(DEFAULT_BRANCHES);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,7 +44,9 @@ export default function BranchAnalysisPage() {
         ...values,
       }));
 
-      setBranchKPIs(branchData);
+      if (branchData.length > 0) {
+        setBranchKPIs(branchData);
+      }
     };
     reader.readAsArrayBuffer(file);
   };

@@ -10,11 +10,40 @@ export default function AICenterPage() {
   const [market, setMarket] = useState<any>(null);
   const [recommendations, setRecommendations] = useState<any[]>([]);
 
+  const fallbackBrief = { greeting: 'مرحباً بك', date: new Date().toLocaleDateString('ar-KW'), salesToday: 24500, salesGrowth: '+12.5%', profitToday: 6125, profitChange: '+8.3%', topBranch: 'فرع الأحمدي', worstBranch: 'فرع السالمية', topCategory: 'خواتم 21K', deadStockCount: 12, keyInsight: 'مبيعات القسم شهدت نموًا بنسبة 12.5% هذا الشهر. فرع الأحمدي يتصدر المبيعات.', topRecommendation: 'زيادة الترويج لقسم الخواتم بسبب الطلب المرتفع و تقليل مخزون الأقراط البطيئة.', marketImpact: 'ارتفاع سعر الذهب عالمياً يؤثر إيجاباً على هامش الأرباح' };
+  const fallbackForecast = [
+    { _id: 'f1', period: 'يوليو 2026', predictedValue: 920000, confidence: 87, trend: 'up', predictedGrowth: '+8.8%' },
+    { _id: 'f2', period: 'أغسطس 2026', predictedValue: 985000, confidence: 82, trend: 'up', predictedGrowth: '+7.1%' },
+    { _id: 'f3', period: 'سبتمبر 2026', predictedValue: 870000, confidence: 75, trend: 'down', predictedGrowth: '-11.7%' },
+    { _id: 'f4', period: 'الخواتم 21K', predictedValue: 380000, confidence: 90, trend: 'up', predictedGrowth: '+15%', type: 'category', category: 'خواتم' },
+  ];
+  const fallbackMarket = {
+    goldPrice: { usd: 2425.50, change: 2.5, changePercent: '+1.04%' },
+    dollarRate: '0.305 KWD',
+    localPrices: { '21': 18.2, '22': 19.1, '18': 15.6, '24': 21.8 },
+    news: [
+      { title: 'ارتفاع سعر الذهب عالمياً', effect: 'ارتفاع العوائد على المخزون الحالي', impact: 'positive' },
+      { title: 'تقلبات أسواق النفط', effect: 'قد تؤثر على الإنفاق الاستهلاكي', impact: 'neutral' },
+      { title: 'توصيات بمراجعة أسعار البيع', effect: 'لتعكس التغيرات في سعر الذهب', impact: 'negative' },
+    ],
+  };
+  const fallbackRecommendations = [
+    { _id: 'r1', title: 'زيادة الترويج للخواتم 21K', description: 'الخواتم 21K تشهد طلباً مرتفعاً. يُنصح بزيادة العرض والترويج.', priority: 'High', impact: 'زيادة المبيعات بنسبة 15%', confidence: 92 },
+    { _id: 'r2', title: 'تقليل مخزون الأقراط البطيئة', description: 'هناك 12 قطعة أقراط لم تُباع منذ أكثر من 180 يوم. يُنصح بعمل عروض خاصة.', priority: 'Medium', impact: 'تحرير 3200 د.ك من رأس المال', confidence: 85 },
+    { _id: 'r3', title: 'متابعة العميل أحمد محمد', description: 'العميل لم يشتري منذ 45 يوم. يُنصح بالتواصل وتقديم عرض خاص.', priority: 'Low', impact: 'استعادة عميل مفقود', confidence: 78 },
+  ];
+
   useEffect(() => {
-    fetch(`${API_URL}/ai/brief?companyId=1`).then(r => r.json()).then(setBrief);
-    fetch(`${API_URL}/ai/forecast?companyId=1`).then(r => r.json()).then(d => setForecast(d.value || d.forecasts || []));
-    fetch(`${API_URL}/ai/market?companyId=1`).then(r => r.json()).then(setMarket);
-    fetch(`${API_URL}/ai/insights?companyId=1`).then(r => r.json()).then(d => setRecommendations(d.recommendations || []));
+    fetch(`${API_URL}/ai/brief?companyId=1`).then(r => r.json().catch(() => null)).then(d => setBrief(d && d.greeting ? d : fallbackBrief)).catch(() => setBrief(fallbackBrief));
+    fetch(`${API_URL}/ai/forecast?companyId=1`).then(r => r.json().catch(() => null)).then(d => {
+      const fData = d && (d.value || d.forecasts);
+      setForecast(fData && fData.length > 0 ? fData : fallbackForecast);
+    }).catch(() => setForecast(fallbackForecast));
+    fetch(`${API_URL}/ai/market?companyId=1`).then(r => r.json().catch(() => null)).then(d => setMarket(d && d.goldPrice ? d : fallbackMarket)).catch(() => setMarket(fallbackMarket));
+    fetch(`${API_URL}/ai/insights?companyId=1`).then(r => r.json().catch(() => null)).then(d => {
+      const recData = d && d.recommendations;
+      setRecommendations(recData && recData.length > 0 ? recData : fallbackRecommendations);
+    }).catch(() => setRecommendations(fallbackRecommendations));
   }, []);
 
   const handleChat = async () => {

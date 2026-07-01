@@ -18,10 +18,10 @@ export default function AlertsPage() {
 
   useEffect(() => {
     fetch(`${API_URL}/alerts?companyId=1`)
-      .then(r => r.json())
+      .then(r => r.json().catch(() => null))
       .then(d => {
-        const apiAlerts = d.value || d.alerts || [];
-        if (apiAlerts.length > 0) {
+        const apiAlerts = d && (d.value || d.alerts);
+        if (apiAlerts && apiAlerts.length > 0) {
           setAlerts(apiAlerts);
           setSource('خادم');
         }
