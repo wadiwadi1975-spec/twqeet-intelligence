@@ -94,59 +94,107 @@ export default function PriceTicker() {
 
   return (
     <div className="w-full overflow-hidden" style={{ backgroundColor: '#0a1628', borderBottom: '2px solid #D4AF37' }}>
-      {/* Metals Row */}
-      <div className="flex items-center ticker-row">
-        <div className="px-1.5 text-gold text-[10px] font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
-          💎
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee-mobile lg:animate-marquee">
-            {[...metals, ...metals, ...metals].map((m, i) => (
-              <div key={i} className="flex items-center gap-1 px-2 whitespace-nowrap">
-                <span className="text-[10px]">{m.icon}</span>
-                <span className="text-white text-[10px] font-bold">{m.name}</span>
-                <span className="text-gold text-[11px] font-bold">${m.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-                <span className="text-[10px] font-bold" style={{ color: getChangeColor(m.change) }}>
-                  {getChangeArrow(m.change)} {Math.abs(m.change).toFixed(2)}%
-                </span>
-              </div>
-            ))}
+      {/* Mobile: Single compact ticker with all data */}
+      <div className="lg:hidden">
+        <div className="flex items-center" style={{ height: '28px' }}>
+          <div className="px-2 text-gold text-[9px] font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+            📊
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="flex items-center" style={{ animation: 'marquee 20s linear infinite' }}>
+              {[...metals, ...goldGrams.slice(0,2), ...currencies.slice(0,3), ...metals, ...goldGrams.slice(0,2), ...currencies.slice(0,3)].map((item: any, i) => {
+                const isMetal = 'change' in item;
+                const isGold = 'karat' in item;
+                if (isMetal) {
+                  return (
+                    <div key={i} className="flex items-center gap-1 px-3 whitespace-nowrap">
+                      <span className="text-[11px]">{item.icon}</span>
+                      <span className="text-white text-[10px] font-bold">{item.name}</span>
+                      <span className="text-gold text-[11px] font-bold">${item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+                      <span className="text-[10px] font-bold" style={{ color: getChangeColor(item.change) }}>
+                        {getChangeArrow(item.change)} {Math.abs(item.change).toFixed(2)}%
+                      </span>
+                    </div>
+                  );
+                }
+                if (isGold) {
+                  return (
+                    <div key={i} className="flex items-center gap-1 px-3 whitespace-nowrap">
+                      <span className="text-gold text-[10px] font-bold">{item.karat}</span>
+                      <span className="text-white text-[10px] font-bold">{item.priceKWD.toFixed(3)} د.ك</span>
+                      <span className="text-green-400 text-[10px] font-bold">${item.priceUSD.toFixed(2)}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <div key={i} className="flex items-center gap-1 px-3 whitespace-nowrap">
+                    <span className="text-[11px]">{item.icon}</span>
+                    <span className="text-white text-[10px] font-bold">{item.code}</span>
+                    <span className="text-gold text-[10px] font-bold">{item.rate.toFixed(3)} د.ك</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Gold Gram Prices */}
-      <div className="flex items-center ticker-row" style={{ borderTop: '1px solid #1c2d4a' }}>
-        <div className="px-1.5 text-gold text-[10px] font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
-          🏆
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee-mobile lg:animate-marquee" style={{ animationDuration: '20s' }}>
-            {[...goldGrams, ...goldGrams, ...goldGrams].map((g, i) => (
-              <div key={i} className="flex items-center gap-1.5 px-2 whitespace-nowrap">
-                <span className="text-gold text-[11px] font-bold">{g.karat}</span>
-                <span className="text-white text-[10px] font-bold">{g.priceKWD.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
-                <span className="text-green-400 text-[10px] font-bold">${g.priceUSD.toFixed(2)}</span>
-              </div>
-            ))}
+      {/* Desktop: 3 separate rows */}
+      <div className="hidden lg:block">
+        {/* Metals Row */}
+        <div className="flex items-center" style={{ height: '32px' }}>
+          <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+            💎_metals
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="flex items-center" style={{ animation: 'marquee 30s linear infinite' }}>
+              {[...metals, ...metals, ...metals].map((m, i) => (
+                <div key={i} className="flex items-center gap-2 px-4 whitespace-nowrap">
+                  <span>{m.icon}</span>
+                  <span className="text-white text-xs font-semibold">{m.name}</span>
+                  <span className="text-gold text-xs font-bold">${m.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+                  <span className="text-xs" style={{ color: getChangeColor(m.change) }}>
+                    {getChangeArrow(m.change)} {Math.abs(m.change).toFixed(2)}%
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Currencies Row */}
-      <div className="flex items-center ticker-row" style={{ borderTop: '1px solid #1c2d4a' }}>
-        <div className="px-1.5 text-gold text-[10px] font-bold whitespace-nowrap border-l border-r ticker-label" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
-          💱
+        {/* Gold Gram Prices */}
+        <div className="flex items-center" style={{ height: '32px', borderTop: '1px solid #1c2d4a' }}>
+          <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+            🏆_Gram
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="flex items-center" style={{ animation: 'marquee 25s linear infinite' }}>
+              {[...goldGrams, ...goldGrams, ...goldGrams].map((g, i) => (
+                <div key={i} className="flex items-center gap-3 px-4 whitespace-nowrap">
+                  <span className="text-gold text-xs font-bold">{g.karat}</span>
+                  <span className="text-white text-xs">{g.priceKWD.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
+                  <span className="text-green-400 text-xs">${g.priceUSD.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="flex-1 overflow-hidden">
-          <div className="flex items-center animate-marquee-mobile lg:animate-marquee" style={{ animationDuration: '25s' }}>
-            {[...currencies, ...currencies, ...currencies].map((c, i) => (
-              <div key={i} className="flex items-center gap-1 px-2 whitespace-nowrap">
-                <span className="text-[10px]">{c.icon}</span>
-                <span className="text-white text-[10px] font-bold">{c.code}</span>
-                <span className="text-gold text-[11px] font-bold">{c.rate.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
-              </div>
-            ))}
+
+        {/* Currencies Row */}
+        <div className="flex items-center" style={{ height: '32px', borderTop: '1px solid #1c2d4a' }}>
+          <div className="px-3 text-gold text-xs font-bold whitespace-nowrap border-l border-r" style={{ borderColor: '#1c2d4a', backgroundColor: 'rgba(212,175,55,0.15)' }}>
+            💱_Currency
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="flex items-center" style={{ animation: 'marquee 35s linear infinite' }}>
+              {[...currencies, ...currencies, ...currencies].map((c, i) => (
+                <div key={i} className="flex items-center gap-2 px-4 whitespace-nowrap">
+                  <span>{c.icon}</span>
+                  <span className="text-white text-xs font-semibold">{c.code}</span>
+                  <span className="text-gold text-xs font-bold">{c.rate.toFixed(3)} <span className="text-gray-400">د.ك</span></span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -155,40 +203,6 @@ export default function PriceTicker() {
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-33.33%); }
-        }
-        @keyframes marquee-mobile {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.33%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        .animate-marquee-mobile {
-          animation: marquee-mobile 15s linear infinite;
-        }
-        .animate-marquee:hover, .animate-marquee-mobile:hover {
-          animation-play-state: paused;
-        }
-        .ticker-row {
-          height: 24px;
-        }
-        @media (min-width: 1024px) {
-          .ticker-row {
-            height: 36px;
-          }
-        }
-        .ticker-label {
-          min-width: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        @media (min-width: 1024px) {
-          .ticker-label {
-            min-width: 50px;
-            padding-left: 12px;
-            padding-right: 12px;
-          }
         }
       `}</style>
     </div>
