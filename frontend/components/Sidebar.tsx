@@ -7,7 +7,7 @@ import { useLang } from '../contexts/LangContext';
 
 export default function Sidebar({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
-  const { t } = useLang();
+  const { t, lang } = useLang();
 
   const menuItems = [
     { name: t.nav.dashboard, path: '/', icon: (
@@ -136,6 +136,18 @@ export default function Sidebar({ onClose }: { onClose?: () => void }) {
           <span className="text-green-400 text-xs font-semibold">{t.common.protected}</span>
         </div>
       </div>
+
+      {/* Subscription Badge */}
+      <Link href="/pricing" onClick={handleNavClick} className="mx-3 mb-2 p-3 rounded-xl flex items-center gap-3 transition-all hover:bg-white/5" style={{ backgroundColor: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)' }}>
+        <span className="text-lg">💎</span>
+        <div className="flex-1">
+          <span className="text-gold text-xs font-bold block">{lang === 'ar' ? 'الباقة الاحترافية' : 'Pro Plan'}</span>
+          <span className="text-gray-500 text-[10px]">{lang === 'ar' ? 'ترقية الآن' : 'Upgrade now'}</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </Link>
 
       <div className="px-3 pb-4">
         <button
